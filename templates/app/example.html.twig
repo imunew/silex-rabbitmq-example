@@ -1,0 +1,57 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+  <h1>RabbitMQ Example</h1>
+  <form class="form-horizontal" method="post">
+    <div class="form-group">
+      <div class="col-sm-12">
+        <button type="button" class="btn btn-primary" data-async="false">Execute Synchronously</button>
+        <button type="button" class="btn btn-danger" data-async="true">Execute Asynchronously</button>
+        <input type="hidden" name="execute-async">
+        <input type="hidden" name="hash" value="{{ hash }}">
+      </div>
+    </div>
+  </form>
+  <div>
+    <div class="start-time">{{ startTime | default('') }}</div>
+    <div class="result">
+      {% if result is defined and result is not empty %}
+        <ul>
+        {% for item in result %}
+          <li>{{ item }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="end-time">{{ endTime | default('') }}</div>
+  </div>
+  <script>
+    $('button[type="button"]').click(function(e){
+      var $target = $(e.target);
+      var executeAsync = $target.data('async');
+      $('input[name="execute-async"]').val(executeAsync);
+      $('form').submit();
+    });
+    $(document).ready(function(){
+      var intervalId = setInterval(function(){
+        var hash = $('input[name="hash"]').val();
+        $.ajax({
+          url: "/listen/" + hash,
+          data_type: "json"
+        }).done(function(data){
+          if (!data || data.length === 0) {
+            return;
+          }
+          var result = '<ul>';
+          for (var index in data.message) {
+            result = result + '<li>' + data.message[index] + '</li>';
+          }
+          result = result + '</ul>';
+          $(result).appendTo('div.result');
+          $('div.end-time').text(data.endTime);
+          clearInterval(intervalId);
+        });
+      }, 1000);
+    });
+  </script>
+{% endblock %}

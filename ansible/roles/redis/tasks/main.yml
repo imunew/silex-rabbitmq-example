@@ -1,0 +1,7 @@
+- name: Install redis packages via epel
+  yum: name={{ item }} state=installed enablerepo=epel
+  with_items:
+    - redis
+
+- name: Run redis
+  service: name=redis state=started enabled=yes

@@ -1,0 +1,10 @@
+- hosts: all
+  sudo: yes
+  roles:
+    - { role: roles/common }
+    - { role: roles/php }
+    - { role: roles/rabbitmq }
+    - { role: roles/redis }
+    - { role: roles/supervisor }
+  vars:
+    app_root_path: /apps

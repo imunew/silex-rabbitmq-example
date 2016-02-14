@@ -1,0 +1,4 @@
+- name: Create configuration files
+  template: src={{ item }}.j2 dest=/etc/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - php.ini

@@ -1,0 +1,8 @@
+*.iml
+.idea/
+composer.phar
+.vagrant
+var/cache
+var/logs
+vendor
+
