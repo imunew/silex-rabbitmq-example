@@ -17,12 +17,17 @@
 
 - name: Create configuration files
   sudo: yes
-  template: src={{ item }}.j2 dest=/etc/{{ item }} mode=u+rw,a+r owner=root group=root
+  template: src={{ item }}.j2 dest=/etc/{{ item }} mode=u+rw,a+rx owner=root group=root
   with_items:
     - supervisord.conf
     - supervisord.d/example.conf
+    - init.d/supervisord
 
-- name: Start supervisord
+- name: Register supervisord service
   sudo: yes
   shell: |
-    supervisord -c /etc/supervisord.conf
+    chkconfig --add supervisord
+    chkconfig supervisord on
+
+- name: Run supervisord
+  service: name=supervisord state=started enabled=yes
