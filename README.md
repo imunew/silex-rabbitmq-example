@@ -40,6 +40,7 @@ $ vagrant up
 ### Start built-in web server
 1. Start console
 1. SSH login to virtual machine
+
     ```
     $ vagrant ssh
     ```
