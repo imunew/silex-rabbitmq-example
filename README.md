@@ -44,6 +44,7 @@ $ vagrant up
     $ vagrant ssh
     ```
 1. Start built-in web server
+
     ```
     [vagrant@vagrant-centos65 ~]$ cd /apps
     [vagrant@vagrant-centos65 apps]$ php -S 0.0.0.0:8001 -t web/ web/index_dev.php
